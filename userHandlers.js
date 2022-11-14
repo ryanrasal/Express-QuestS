@@ -1,3 +1,4 @@
+const { query } = require("./database");
 const database = require("./database");
 
 const getUsers = (req, res) => {
