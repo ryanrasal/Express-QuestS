@@ -24,6 +24,11 @@ const hashPassword = (req, res, next) => {
     });
 };
 
+const verifyPassword = (req, res) => {
+  res.send(req.user);
+}
+
 module.exports = {
   hashPassword,
+  verifyPassword
 };

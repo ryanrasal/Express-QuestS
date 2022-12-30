@@ -116,10 +116,25 @@ const deleteUser = (req, res) => {
       res.status(500).send("Error deleting the user");
     });
 };
+
+const getUserByEmailWithPasswordAndPassToNext = (req, res, next) => {
+  const { email } = req.body;
+  db.promise()
+    .query("SELECT id, hashedPassword FROM users WHERE email = ?", [email])
+    .then(([users]) => {
+      if (users[0]) {
+        req.user = users[0]
+        next();
+      } else res.status(401);
+    })
+    .catch(console.error);
+};
+
 module.exports = {
   getUsers,
   getUserById,
   postUser,
   updateUser,
   deleteUser,
+  getUserByEmailWithPasswordAndPassToNext,
 };

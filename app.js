@@ -5,7 +5,7 @@ const express = require("express");
 const app = express();
 app.use(express.json());
 
-const { hashPassword } = require("./auth.js");
+const { hashPassword, verifyPassword } = require("./auth.js");
 
 const welcome = (req, res) => {
   res.send("Welcome to my favourite movie list");
@@ -26,6 +26,11 @@ app.put("/api/users/:id", userHandlers.updateUser);
 app.delete("/api/movies/:id", movieHandlers.deleteMovie);
 app.delete("/api/users/:id", userHandlers.deleteUser);
 
+app.post(
+  "/api/login",
+  userHandlers.getUserByEmailWithPasswordAndPassToNext,
+  verifyPassword
+);
 app.listen(port, (err) => {
   if (err) {
     console.error("Something bad happened");
